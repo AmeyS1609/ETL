@@ -1,0 +1,14 @@
+student_id,study_hours,attendance_pct,prior_score,program,exam_score
+S001,5.0,92,78,Computer Science,84
+S002,2.5,75,61,Computer Science,68
+S003,8.0,98,88,Mathematics,93
+S004,4.0,N/A,70,Physics,76
+S005, 6.5 ,85,82,Mathematics,87
+S006,3.0,64,55,Physics,62
+S007,9.0,105,91,Computer Science,96
+S008,ninety,88,74,Computer Science,81
+S009,4.5,79,,Mathematics,73
+S010,7.0,90,80,Physics,86
+S010,7.0,90,80,Physics,86
+S011,1.5,58,49,Physics,55
+S012,5.5,82,77,,79
