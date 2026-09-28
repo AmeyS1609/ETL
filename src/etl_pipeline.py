@@ -6,9 +6,25 @@ def extract_data(path):
 
 def transform(data):
     transformed=data.copy() #so that raw data remains uncchanged
-    transformed=data.drop_duplicates()
+    transformed=transformed.drop_duplicates()
+    numeric_columns = [
+        "study_hours",
+        "attendance_pct",
+        "prior_score",
+        "exam_score"
+    ]
+
+    for column in numeric_columns:
+        transformed[column]= pd.to_numeric(transformed[column],errors="coerce")
+
     return transformed
 
 raw_data = extract_data("data/raw/student_performance.csv")
+cleaned_data=transform(raw_data)
 
 print(raw_data.head())
+print("Raw records:", len(raw_data))
+print("Cleaned records:", len(cleaned_data))
+print(cleaned_data.head())
+print(cleaned_data.dtypes)
+print(cleaned_data.isna().sum())
