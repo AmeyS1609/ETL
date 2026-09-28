@@ -17,6 +17,14 @@ def transform(data):
     for column in numeric_columns:
         transformed[column]= pd.to_numeric(transformed[column],errors="coerce")
 
+    numeric_feature_column = ["study_hours",
+            "attendance_pct",
+            "prior_score"]
+
+    for column in numeric_feature_column:
+        meadian_value= transformed[column].median()
+        transformed[column] = transformed[column].fillna(meadian_value)
+
     return transformed
 
 raw_data = extract_data("data/raw/student_performance.csv")
