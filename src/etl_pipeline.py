@@ -5,7 +5,7 @@ def extract_data(path):
     return data
 
 def transform(data):
-    transformed=data.copy() #so that raw data remains uncchanged
+    transformed=data.copy() #so that raw data remains unchanged
     transformed=transformed.drop_duplicates()
     numeric_columns = [
         "study_hours",
@@ -22,8 +22,16 @@ def transform(data):
             "prior_score"]
 
     for column in numeric_feature_column:
-        meadian_value= transformed[column].median()
-        transformed[column] = transformed[column].fillna(meadian_value)
+        median_value= transformed[column].median()
+        transformed[column] = transformed[column].fillna(median_value)
+
+    invalid_attendance = ~transformed["attendance_pct"].between(0, 100) # ~ means not/negation
+    transformed.loc[
+    invalid_attendance,
+    "attendance_pct"
+] = pd.NA
+    transformed["program"]= transformed["program"].fillna("UNAVAILABLE").str.strip()
+    transformed=transformed.dropna(subset=["exam_score"])
 
     return transformed
 
