@@ -17,21 +17,26 @@ def transform(data):
     for column in numeric_columns:
         transformed[column]= pd.to_numeric(transformed[column],errors="coerce")
 
-    numeric_feature_column = ["study_hours",
-            "attendance_pct",
-            "prior_score"]
-
-    for column in numeric_feature_column:
-        median_value= transformed[column].median()
-        transformed[column] = transformed[column].fillna(median_value)
-
     invalid_attendance = ~transformed["attendance_pct"].between(0, 100) # ~ means not/negation
     transformed.loc[
-    invalid_attendance,
-    "attendance_pct"
-] = pd.NA
+        invalid_attendance,
+        "attendance_pct"
+    ] = pd.NA
     transformed["program"]= transformed["program"].fillna("UNAVAILABLE").str.strip()
     transformed=transformed.dropna(subset=["exam_score"])
+
+    numeric_feature_column = ["study_hours",
+                "attendance_pct",
+                "prior_score"]
+
+    for column in numeric_feature_column:
+            median_value= transformed[column].median()
+            transformed[column] = transformed[column].fillna(median_value)
+
+
+    
+
+    
 
     return transformed
 
