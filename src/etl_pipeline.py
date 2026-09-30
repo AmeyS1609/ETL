@@ -33,9 +33,19 @@ def transform(data):
             median_value= transformed[column].median()
             transformed[column] = transformed[column].fillna(median_value)
 
-
+    program_dummies = pd.get_dummies(
+                     transformed["program"],
+                     prefix="program",
+                     dtype=int
+    )
     
-
+    transformed = pd.concat(
+        [
+            transformed.drop(columns=["program"]),
+            program_dummies
+        ],
+        axis=1
+    )
     
 
     return transformed
