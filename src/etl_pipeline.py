@@ -1,5 +1,6 @@
 import pandas as pd
 from pathlib import Path
+import sqlite3
 
 def extract_data(path):
     data=pd.read_csv(path)
@@ -72,12 +73,51 @@ def validate_data(data):
 
     return True
 
+def load_data(data, output_path):
+    output_path = Path(output_path)
+
+    output_path.parent.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    data.to_csv(
+        output_path,
+        index=False
+    )
+
+def load_to_sqlite(data, database_path):
+    database_path = Path(database_path)
+    database_path.parent.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    with sqlite3.connect(database_path) as connection:
+        data.to_sql(
+            "student_performance",
+            connection,
+            if_exists="replace",
+            index=False
+        )
 
 raw_data = extract_data("data/raw/student_performance.csv")
 cleaned_data=transform(raw_data)
 
-raw_data = extract_data("data/raw/student_performance.csv")
-cleaned_data = transform(raw_data)
-
 validate_data(cleaned_data)
 print("Validation passed")
+
+output_path = "data/processed/cleaned_student_performance.csv"
+
+load_data(cleaned_data, output_path)
+
+print(f"Saved cleaned data to {output_path}")
+
+database_path = "data/processed/student_performance.db"
+
+load_to_sqlite(
+    cleaned_data,
+    database_path
+)
+
+print(f"Saved SQLite database to {database_path}")
