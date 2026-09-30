@@ -183,6 +183,3 @@ The data is validated before it is saved. This prevents invalid or incomplete da
 - Add a machine-learning model
 - Add a dashboard using Streamlit
 
-## Resume Description
-
-> Built a Python/pandas ETL pipeline to extract, clean, validate, and load student-performance data into CSV and SQLite formats; handled duplicates, invalid values, missing data, numerical conversion, categorical encoding, and data-quality validation.
