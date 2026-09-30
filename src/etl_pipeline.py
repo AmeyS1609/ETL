@@ -1,4 +1,5 @@
 import pandas as pd
+from pathlib import Path
 
 def extract_data(path):
     data=pd.read_csv(path)
@@ -70,6 +71,7 @@ def validate_data(data):
             raise ValueError(f"{column} is outside the valid range")
 
     return True
+
 
 raw_data = extract_data("data/raw/student_performance.csv")
 cleaned_data=transform(raw_data)
