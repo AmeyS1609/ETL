@@ -50,12 +50,32 @@ def transform(data):
 
     return transformed
 
+def validate_data(data):
+    if data["student_id"].duplicated().any():
+        raise ValueError("Student IDs are not unique")
+
+    if data.isna().any().any():
+        raise ValueError("Missing values remain")
+
+    if not data["attendance_pct"].between(0, 100).all():
+        raise ValueError("Attendance is outside the valid range")
+
+    score_columns = [
+        "prior_score",
+        "exam_score"
+    ]
+
+    for column in score_columns:
+        if not data[column].between(0, 100).all():
+            raise ValueError(f"{column} is outside the valid range")
+
+    return True
+
 raw_data = extract_data("data/raw/student_performance.csv")
 cleaned_data=transform(raw_data)
 
-print(raw_data.head())
-print("Raw records:", len(raw_data))
-print("Cleaned records:", len(cleaned_data))
-print(cleaned_data.head())
-print(cleaned_data.dtypes)
-print(cleaned_data.isna().sum())
+raw_data = extract_data("data/raw/student_performance.csv")
+cleaned_data = transform(raw_data)
+
+validate_data(cleaned_data)
+print("Validation passed")
